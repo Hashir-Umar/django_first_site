@@ -1,0 +1,73 @@
+<html>
+
+<header>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+    <style>
+        .vertical-center {
+            min-height: 100vh; /* These two lines are counted as one :-)       */
+
+            display: flex;
+            align-items: center;
+        }
+    </style>
+
+</header>
+
+<body>
+
+<div class="container vertical-center">
+
+    {% if list_of_recent_posted__quote %}
+        <ul class="list-group mt-3">
+            <h1 class="text-center p-2">
+                Quotes
+            </h1>
+            {% for quote in list_of_recent_posted__quote %}
+
+                {% if forloop.first %}
+                    <div class="row mb-0 mb-md-2">
+                {% endif %}
+
+            <a href="/quotes/{{ quote.id }}/"
+               class="col-md-6 mb-2 mb-md-0 list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between align-items-center mb-2">
+                    <h5> ~ {{ quote.author }}</h5>
+                    <small>{{ quote.posted_date }}</small>
+                </div>
+                <div class="text-muted">
+                    &quot;{{ quote.text | truncatechars:100 }}&quot;
+                </div>
+            </a>
+
+            {% if forloop.counter|divisibleby:"2" %}
+                </div>
+                {% if not forloop.last %}
+                    <div class="row mb-0 mb-md-2">
+                {% endif %}
+            {% endif %}
+
+            {% if forloop.last %}
+                </div>
+            {% endif %}
+
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No quotes are available.</p>
+    {% endif %}
+</div>
+
+</body>
+
+</html>
